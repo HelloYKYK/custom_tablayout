@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.okoer.ui.widget.tablayout;
+package com.okoer.ai.ui.view.tablayout;
 
 import android.annotation.TargetApi;
 import android.content.Context;
@@ -34,7 +34,6 @@ import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
-import android.support.design.R;
 import android.support.v4.util.Pools;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.PagerAdapter;
@@ -61,6 +60,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.okoer.androidlib.util.DpAndPx;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -181,6 +182,7 @@ public class TabLayout extends HorizontalScrollView {
      * @see #getTabMode()
      */
     public static final int MODE_FIXED = 1;
+    private float indecatorWidth =0 ;
 
     /**
      * @hide
@@ -1971,7 +1973,9 @@ public class TabLayout extends HorizontalScrollView {
                 if (selectedTitle instanceof TabView){
 //                    TextPaint paint = ((TextView) selectedTitle).getPaint();
 //                    //文字左右平分距left和right的宽度
-                    float textPaintWidth = ((TabView) selectedTitle).getTabTextWidth();
+
+                    float textPaintWidth = indecatorWidth==0? ((TabView) selectedTitle).getTabTextWidth():
+                            indecatorWidth;
                     ((TabView) selectedTitle).getTabTextWidth();
                     float newLeft = (right-left-textPaintWidth)/2;
                     left = (int) (left+newLeft);
@@ -2085,6 +2089,10 @@ public class TabLayout extends HorizontalScrollView {
                         mIndicatorRight, getHeight(), mSelectedIndicatorPaint);
             }
         }
+    }
+
+    public void  setIndicatorWidth(int dp) {
+        this.indecatorWidth =  DpAndPx.convertDpToPixel(dp);
     }
 
     private static ColorStateList createColorStateList(int defaultColor, int selectedColor) {
